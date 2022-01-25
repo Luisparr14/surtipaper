@@ -1,7 +1,8 @@
 export const Table = ({
   data,
   columns,
-  title
+  title, 
+  maxHeight,
 }) => {
   return (
     <>
@@ -41,11 +42,12 @@ export const Table = ({
         .table-container {
           width: 100%;
           overflow-y: auto;
-          max-height: 250px;
           background-color: var(--primaryColor);
           border-radius: 10px;
           margin: 10px 0;
-          padding: 0 10px 10px;
+          border: 10px solid var(--primaryColor);
+          border-right: 0;
+          flex: 1;
         }
         .table {
           width: 100%;
