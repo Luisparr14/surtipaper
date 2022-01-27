@@ -1,10 +1,12 @@
+import axios from "axios";
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
 import { Table } from "../../components/commons/Table";
 import NavBar from "../../components/content/header/NavBar";
 
-export default function Sales ({ data }) {
-  console.log("ENTORNO",process.env.DB_USER)
+export default function Sales ({ data, total, totalHoy }) {
+  const [showTotal, setShowTotal] = useState(true)
   return (
     <>
       <NavBar />
@@ -15,7 +17,9 @@ export default function Sales ({ data }) {
           <title>Ventas</title>
         </Head>
         <header className="header">
-          <h1>Total vendido hoy: $234,231</h1>
+          {
+            showTotal ? <h1>Total Historico vendido $ {total}</h1> : <h1>Total vendido hoy: $ {totalHoy}</h1>
+          }
         </header>
         <main className="main">
           <section className="tables">
@@ -23,10 +27,11 @@ export default function Sales ({ data }) {
               columns={[
                 { key: "id_factura", title: "ID Factura" },
                 { key: "total", title: "Total" },
-                { key: "responsable", title: "Responsable" },
+                { key: "empleado", title: "Responsable" },
                 { key: "fecha", title: "Fecha" },
               ]}
               data={data}
+              title={`Hostorial de ventas`}
             />
           </section>
           <section className="image-sales">
@@ -71,17 +76,24 @@ export default function Sales ({ data }) {
 }
 
 export async function getServerSideProps () {
-  let facturas = [];
+  let total = 0
+  let totalHoy = 0
+  let facturas = []
+
   try {
-    const res = await fetch('https://61ecbd30f3011500174d2201.mockapi.io/api/v1/facturas')
-    facturas = await res.json()
+    const response = await axios.get(`${process.env.API_URL}/sales`)
+    facturas = response.data.sales
+    total = response.data.totalHistorico
+    totalHoy = response.data.totalHoy
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 
   return {
     props: {
-      data: facturas
+      data: facturas,
+      total,
+      totalHoy
     }
   }
 

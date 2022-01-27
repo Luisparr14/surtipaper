@@ -22,9 +22,14 @@ export const Table = ({
           <tbody>
             {data.map(row => (
               <tr key={`${row.id}-${Math.floor(Math.random()*100000)}`}>
-                {columns.map(column => (
-                  <td key={column.key}>{row[column.key]}</td>
-                ))}
+                {columns.map(column => {
+                  if (column.key === 'fecha') {
+                    let date = new Date(row[column.key]).toLocaleString();
+                    return <td key={column.key}>{date}</td>
+                  }else{
+                    return <td key={column.key}>{row[column.key]}</td>
+                  }
+                })}
               </tr>
             ))}
           </tbody>
