@@ -21,7 +21,7 @@ export const Table = ({
           </thead>
           <tbody>
             {data.map(row => (
-              <tr key={row.id}>
+              <tr key={`${row.id}-${Math.floor(Math.random()*100000)}`}>
                 {columns.map(column => (
                   <td key={column.key}>{row[column.key]}</td>
                 ))}
@@ -41,7 +41,7 @@ export const Table = ({
         }
         .table-container {
           width: 100%;
-          overflow-y: auto;
+          overflow-y: scroll;
           background-color: var(--primaryColor);
           border-radius: 10px;
           margin: 10px 0;

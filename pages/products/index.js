@@ -1,10 +1,11 @@
+import axios from "axios";
 import Head from "next/head";
 import Link from "next/link";
 import Button from "../../components/commons/Button";
 import { Table } from '../../components/commons/Table';
 import NavBar from "../../components/content/header/NavBar";
 
-export default function Products ({ data }) {
+export default function Products ({ products }) {
     return (
         <>
             <NavBar />
@@ -24,18 +25,28 @@ export default function Products ({ data }) {
                                 { key: 'precio_unitario', title: 'Precio' },
                                 { key: 'unidades', title: 'Cantidad' },
                             ]}
-                            data={data}
+                            data={products}
                         />
                     </section>
                     <section className="options">
-                        <Button
-                            title={'Agregar producto'}
-                            backGroundColor={'#A5EA4D'}
-                        />
-                        <Button
-                            title={'Eliminar producto'}
-                            backGroundColor={'#FA6E6E'}
-                        />
+                        <Link href={"/products/add"}>
+                            <a>
+                                <Button
+                                    title={'Agregar producto'}
+                                    backGroundColor={'#A5EA4D'}
+                                />
+
+                            </a>
+                        </Link>
+                        <Link href={"/products/delete"}>
+                            <a>
+                                <Button
+                                    title={'Eliminar producto'}
+                                    backGroundColor={'#FA6E6E'}
+                                />
+                            </a>
+                        </Link>
+
                     </section>
                 </main>
             </div>
@@ -64,15 +75,16 @@ export default function Products ({ data }) {
 export async function getServerSideProps () {
     let products = [];
     try {
-        const response = await fetch('https://61ecbd30f3011500174d2201.mockapi.io/api/v1/productos')
-        products = await response.json()
+        const response = await axios(`${process.env.API_URL}/products`);
+        products = response.data.products;
     }
     catch (error) {
         console.error('Error en la peticion', error)
     }
+    
     return {
         props: {
-            data: products
+            products
         }
     }
 }

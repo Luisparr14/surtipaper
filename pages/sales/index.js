@@ -4,6 +4,7 @@ import { Table } from "../../components/commons/Table";
 import NavBar from "../../components/content/header/NavBar";
 
 export default function Sales ({ data }) {
+  console.log("ENTORNO",process.env.DB_USER)
   return (
     <>
       <NavBar />
@@ -70,7 +71,6 @@ export default function Sales ({ data }) {
 }
 
 export async function getServerSideProps () {
-
   let facturas = [];
   try {
     const res = await fetch('https://61ecbd30f3011500174d2201.mockapi.io/api/v1/facturas')

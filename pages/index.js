@@ -1,10 +1,11 @@
+import axios from 'axios'
 import Head from 'next/head'
 import Image from 'next/image'
 import { Table } from '../components/commons/Table'
 import NavBar from '../components/content/header/NavBar'
 import styles from '../styles/Home.module.css'
 
-export default function Home ({ data }) {
+export default function Home ({ minStock, topSellers }) {
   return (
     <>
       <NavBar />
@@ -17,22 +18,22 @@ export default function Home ({ data }) {
         <main className={styles.main}>
           <section className={styles.tables}>
             <Table
-              title={'Productos sin existencias'}
+              title={'Productos a punto de agotarse'}
               columns={[
                 { key: 'codigo', title: 'ID' },
                 { key: 'articulo', title: 'Nombre' },
                 { key: 'unidades', title: 'Stock' }
               ]}
-              data={data}
+              data={minStock}
             />
             <Table
               title={'Más vendidos'}
               columns={[
                 { key: 'codigo', title: 'ID' },
                 { key: 'articulo', title: 'Nombre' },
-                { key: 'unidades', title: 'Stock' }
+                { key: 'vendido', title: 'Cantidad vendida' }
               ]}
-              data={data}
+              data={topSellers}
             />
           </section>
           <section className={styles.imageContent}>
@@ -50,16 +51,26 @@ export default function Home ({ data }) {
   )
 }
 export async function getServerSideProps () {
-  let products=[];
+  let minStock = []
+  let topSellers = []
   try {
-    const response = await fetch('https://61ecbd30f3011500174d2201.mockapi.io/api/v1/productos')
-    products = await response.json()
+    const responseMinStock = await axios.get(`${process.env.API_URL}/products/min-stock`);
+    minStock = responseMinStock.data.products;
   } catch (error) {
-    console.error('Error en la peticion', error)
+    console.error(error.response.data)
   }
+
+  try {
+    const responseTopSellers = await axios.get(`${process.env.API_URL}/products/top-sellers`);
+    topSellers = responseTopSellers.data.products;
+  } catch (error) {
+    console.error(error.response.data)
+  }
+
   return {
     props: {
-      data: products
+      minStock,
+      topSellers
     }
   }
 }
