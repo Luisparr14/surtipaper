@@ -1,5 +1,6 @@
 import axios from "axios";
 import Head from "next/head";
+import { useRouter } from 'next/router';
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import InputText from "../../components/commons/InputText";
@@ -15,8 +16,8 @@ export default function Sell ({ methodPayments, employees }) {
   const [metodoPago, setMetodoPago] = useState(methodPayments.length === 0 ? 0 : methodPayments[0].id)
   const [producto, setProducto] = useState('')
   const [cantidad, setCantidad] = useState(1)
-
   const [products, setProducts] = useState([])
+
 
   const resetStates = () => {
     setVendiendo(false)
@@ -39,7 +40,6 @@ export default function Sell ({ methodPayments, employees }) {
   }, [factura])
 
   const ComenzarVenta = async () => {
-    console.log(process.env)
     setVendiendo(true)
     const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/bill/create-bill`, { empleado, metodoPago })
     setFactura(response.data.idFactura)
@@ -68,6 +68,11 @@ export default function Sell ({ methodPayments, employees }) {
   }
 
   const FinalizarVenta = async () => {
+    console.log('Finalizando venta', products.length)
+    if (products.length === 0) {
+      console.log('No hay productos en la factura')
+      return
+    }
     resetStates()
   }
 
@@ -83,7 +88,7 @@ export default function Sell ({ methodPayments, employees }) {
 
   return (
     <>
-      <NavBar />
+      {!vendiendo && <NavBar />}
       <div className="container">
         <Head>
           <meta name="description" content="Listado completo de ventas" />
@@ -246,7 +251,7 @@ export async function getServerSideProps () {
   } catch (error) {
     console.log(error.Error)
   }
-  
+
   return {
     props: {
       methodPayments,

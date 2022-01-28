@@ -1,6 +1,5 @@
 import db from '../../../lib/db';
 export default function CreateBill (req, res) {
-  console.log(req.body)
   const { empleado, metodoPago } = req.body;
   const params = [empleado, metodoPago];
   const queryFunction = `SELECT crear_factura(?,?) as id`
