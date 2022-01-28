@@ -21,7 +21,7 @@ export default function NavBar () {
             <li><Link href="/"><a>Inicio</a></Link></li>
             <li><Link href="/sales"><a>Ventas</a></Link></li>
             <li><Link href="/products"><a>Productos</a></Link></li>
-            <li><Link href="/vender"><a>Vender</a></Link></li>
+            <li><Link href="/sell"><a>Vender</a></Link></li>
           </ul>
         </div>
       </nav>
@@ -29,7 +29,7 @@ export default function NavBar () {
         <li><Link href="/"><a>Inicio</a></Link></li>
         <li><Link href="/sales"><a>Ventas</a></Link></li>
         <li><Link href="/products"><a>Productos</a></Link></li>
-        <li><Link href="/vender"><a>Vender</a></Link></li>
+        <li><Link href="/sell"><a>Vender</a></Link></li>
       </ul>
     </>
   )
