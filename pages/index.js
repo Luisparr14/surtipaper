@@ -53,6 +53,7 @@ export default function Home ({ minStock, topSellers }) {
 export async function getServerSideProps () {
   let minStock = []
   let topSellers = []
+  
   try {
     const responseMinStock = await axios.get(`${process.env.API_URL}/products/min-stock`);
     minStock = responseMinStock.data.products;

@@ -9,8 +9,8 @@ import NavBar from "../../components/content/header/NavBar";
 import InputSelect from "../../components/commons/InputSelect";
 
 export default function Sell ({ methodPayments, employees }) {
-  const [vendiendo, setVendiendo] = useState(true)
-  const [factura, setFactura] = useState(2)
+  const [vendiendo, setVendiendo] = useState(false)
+  const [factura, setFactura] = useState(0)
   const [empleado, setEmpleado] = useState(employees.length === 0 ? 0 : employees[0].id)
   const [metodoPago, setMetodoPago] = useState(methodPayments.length === 0 ? 0 : methodPayments[0].id)
   const [producto, setProducto] = useState('')
@@ -18,10 +18,22 @@ export default function Sell ({ methodPayments, employees }) {
 
   const [products, setProducts] = useState([])
 
+  const resetStates = () => {
+    setVendiendo(false)
+    setFactura(0)
+    setProducts([])
+    setEmpleado(employees.length === 0 ? 0 : employees[0].id)
+    setMetodoPago(methodPayments.length === 0 ? 0 : methodPayments[0].id)
+  }
+
   useEffect(() => {
     async function fetchData () {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sell/list-products`, { "idFactura": factura });
-      setProducts(res.data.productsList);
+      try {
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sell/list-products`, { "idFactura": factura });
+        setProducts(res.data.productsList);
+      } catch (error) {
+
+      }
     }
     fetchData();
   }, [factura])
@@ -42,16 +54,30 @@ export default function Sell ({ methodPayments, employees }) {
       console.log('La cantidad debe ser mayor a 0')
       return
     }
+
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sell/add-product`, { factura, producto, cantidad })
       const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sell/list-products`, { "idFactura": factura });
       setProducts(res.data.productsList);
-      console.log('click')
       setCantidad(1)
       setProducto('')
     } catch (error) {
       console.log(error)
       return
+    }
+  }
+
+  const FinalizarVenta = async () => {
+    resetStates()
+  }
+
+  const CancelarVenta = async () => {
+    resetStates()
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sell/cancel-sale`, { "idFactura": factura })
+      console.log(response.data)
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -113,11 +139,13 @@ export default function Sell ({ methodPayments, employees }) {
                 title={"Finalizar Venta"}
                 backGroundColor={`#A5EA4D`}
                 width={"40%"}
+                onClick={FinalizarVenta}
               />
               <Button
                 title={"Cancelar Venta"}
                 backGroundColor={`#FA6E6E`}
                 width={"40%"}
+                onClick={CancelarVenta}
               />
             </div>
           </section>}
@@ -218,7 +246,7 @@ export async function getServerSideProps () {
   } catch (error) {
     console.log(error.Error)
   }
-  console.log(methodPayments)
+  
   return {
     props: {
       methodPayments,
