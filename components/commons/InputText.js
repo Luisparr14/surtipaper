@@ -1,4 +1,4 @@
-export default function InputText ({ type, placeHolder, id, width, height, onChange, value }) {
+export default function InputText ({ type, placeHolder, id, width, height, background,onChange, value }) {
   return (
     <>
       <input id={id} className="input" type={type} placeholder={placeHolder} onChange={onChange} value={value} min={0} max={1000}/>
@@ -11,7 +11,7 @@ export default function InputText ({ type, placeHolder, id, width, height, onCha
           padding: 0 10px;
           margin: 5px 5px;
           font-size: 14px;
-
+          background-color: ${background || undefined};
         }
       `}</style>
     </>

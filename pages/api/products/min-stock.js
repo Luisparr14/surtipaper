@@ -1,7 +1,7 @@
 import db from "../../../lib/db"
 
 export default function MinStock (req, res) {
-  const querySelect = 'SELECT * FROM producto WHERE unidades <= 60'
+  const querySelect = 'SELECT * FROM producto WHERE unidades <= 20'
   db.query(querySelect, (err, rows) => {
     if (err) {
       return res.status(500).json({

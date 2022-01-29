@@ -1,13 +1,12 @@
-import handleError from '../../../helpers/handleError';
 import db from '../../../lib/db';
-export default function AddProduct (req,res){
-  const { factura, cantidad,producto } = req.body;
-  const params = [producto,cantidad,factura];
-  const queryFunction = `SELECT agregarProducto(?,?,?) as estado`
-
+import handleError from '../../../helpers/handleError';
+export default function UpdateProduct (req, res) {
+  const { codigo, cantidad } = req.body;
+  const params = [codigo, cantidad];
+  const queryFunction = `call SumarCantidadAProducto(?,?)`
+  
   db.query(queryFunction, params, (err, results) => {
     if (err) {
-
       return res.status(500).json({
         ok: false,
         error: 'Error de servidor',
@@ -15,16 +14,17 @@ export default function AddProduct (req,res){
         err
       });
     }
-    if (results.length === 0) {
+
+    if (results.affectedRows === 0) {
       return res.status(404).json({
         ok: false,
-        nombre: 'No se pudo agregar el producto'
+        message: 'El codigo de producto no existe',
       });
     }
 
     return res.status(200).json({
       ok: true,
-      estado:results[0].estado
+      message: 'Producto actualizado'
     })
 
   })

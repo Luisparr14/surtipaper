@@ -1,4 +1,4 @@
-export default function Button ({ title, backGroundColor, borderRadius, width, height, onClick }) {
+export default function Button ({ title, backGroundColor, borderRadius, width, height, margin, onClick }) {
   return (
     <button onClick={onClick}>
       {title}
@@ -21,6 +21,7 @@ export default function Button ({ title, backGroundColor, borderRadius, width, h
             cursor: pointer;
             margin: 5px 0;
             justify-content: center;
+            margin: ${margin || undefined};
           }
           button:hover {
             border-color: var(--primaryColor);

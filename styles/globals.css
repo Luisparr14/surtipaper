@@ -74,3 +74,23 @@ ul.noCollapse {
   }
 
 /* SECTION MAIN STYLES */
+
+/* HEADER STYLE */
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: Roboto san-serif; ;
+  font-size: 26px;
+  height: 100px;
+}
+
+/* STYLES FOR MESSAGE ERRORS */
+.message-error{
+  margin-top: 5px;
+  color: red;
+  font-size: 14px;
+  font-weight: bold;
+  padding-left: 10px;
+}

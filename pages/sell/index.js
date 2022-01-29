@@ -17,7 +17,8 @@ export default function Sell ({ methodPayments, employees }) {
   const [producto, setProducto] = useState('')
   const [cantidad, setCantidad] = useState(1)
   const [products, setProducts] = useState([])
-
+  const [errorMessage, setErrorMessage] = useState('')
+  const [error, setError] = useState(false)
 
   const resetStates = () => {
     setVendiendo(false)
@@ -27,13 +28,21 @@ export default function Sell ({ methodPayments, employees }) {
     setMetodoPago(methodPayments.length === 0 ? 0 : methodPayments[0].id)
   }
 
+  const showMessageError = (message) => {
+    setError(true)
+    setErrorMessage(message)
+    setTimeout(() => {
+      setError(false)
+    }, 1000);
+  }
+
   useEffect(() => {
     async function fetchData () {
       try {
         const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sell/list-products`, { "idFactura": factura });
         setProducts(res.data.productsList);
       } catch (error) {
-
+        console.log(error.response.data);
       }
     }
     fetchData();
@@ -47,11 +56,11 @@ export default function Sell ({ methodPayments, employees }) {
 
   const AgregarProducto = async () => {
     if (producto === '') {
-      console.log('No se ha seleccionado un producto')
+      showMessageError('Debe seleccionar un producto')
       return
     }
     if (cantidad <= 0) {
-      console.log('La cantidad debe ser mayor a 0')
+      showMessageError('La cantidad debe ser mayor a 0')
       return
     }
 
@@ -62,7 +71,8 @@ export default function Sell ({ methodPayments, employees }) {
       setCantidad(1)
       setProducto('')
     } catch (error) {
-      console.log(error)
+      console.log(error.response.data)
+      showMessageError(error.response.data.message)
       return
     }
   }
@@ -126,8 +136,9 @@ export default function Sell ({ methodPayments, employees }) {
                 width={"45px"}
                 height={"37px"}
                 onClick={AgregarProducto}
-              />
+                />
             </div>
+                {error && <div className="message-error">{errorMessage}</div>}
             <Table
               columns={[
                 { key: "codigo", title: "Codigo" },
@@ -189,15 +200,6 @@ export default function Sell ({ methodPayments, employees }) {
         </main>
       </div>
       <style jsx>{`
-        .header {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          font-family: Roboto san-serif; ;
-          font-size: 26px;
-          height: 100px;
-        }
       .main {
           min-height: calc(100vh - 150px);
           padding: 0;

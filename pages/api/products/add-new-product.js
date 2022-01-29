@@ -1,13 +1,14 @@
 import handleError from '../../../helpers/handleError';
 import db from '../../../lib/db';
-export default function AddProduct (req,res){
-  const { factura, cantidad,producto } = req.body;
-  const params = [producto,cantidad,factura];
-  const queryFunction = `SELECT agregarProducto(?,?,?) as estado`
+export default function AddNewProduct (req, res) {
+  console.log(req.body);
+  const { codigo, nombre, cantidad, precio, marca} = req.body;
+  const params = [codigo, nombre, cantidad, precio, marca];
+
+  const queryFunction = `call InsertarProducto(?,?,?,?,?)`
 
   db.query(queryFunction, params, (err, results) => {
     if (err) {
-
       return res.status(500).json({
         ok: false,
         error: 'Error de servidor',
@@ -24,8 +25,8 @@ export default function AddProduct (req,res){
 
     return res.status(200).json({
       ok: true,
-      estado:results[0].estado
+      message: 'Producto agregado'
     })
 
   })
-}
+}   

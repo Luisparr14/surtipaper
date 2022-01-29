@@ -1,7 +1,7 @@
 export const Table = ({
   data,
   columns,
-  title, 
+  title,
   maxHeight,
 }) => {
   return (
@@ -21,12 +21,15 @@ export const Table = ({
           </thead>
           <tbody>
             {data.map(row => (
-              <tr key={`${row.id}-${Math.floor(Math.random()*100000)}`}>
+              <tr key={`${row.id}-${Math.floor(Math.random() * 100000)}`}>
                 {columns.map(column => {
                   if (column.key === 'fecha') {
                     let date = new Date(row[column.key]).toLocaleString();
                     return <td key={column.key}>{date}</td>
-                  }else{
+                  } if (column.key === 'precio' || column.key === 'precio_unitario') {
+                    let precio = parseFloat(row[column.key]).toLocaleString('en-ES', { style: 'currency', currency: 'USD' })
+                    return <td key={column.key}>{precio}</td>
+                  } else {
                     return <td key={column.key}>{row[column.key]}</td>
                   }
                 })}
