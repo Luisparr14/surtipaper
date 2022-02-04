@@ -12,34 +12,43 @@ export default function Add ({ products }) {
   const [modeNewProduct, setModeNewProduct] = useState(false);
   const [product, setProduct] = useState(data);
   const [error, setError] = useState(false);
-  const [messageError, setMessageError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const ChangeMode = () => {
     setProduct(data);
     setModeNewProduct(!modeNewProduct);
   }
 
-  const showMessageError = (message) => {
+  const showErrorMessage = (message) => {
     setError(true)
-    setMessageError(message)
+    setErrorMessage(message)
     setTimeout(() => {
       setError(false)
     }, 1000);
   }
 
   const AddProduct = async () => {
+
     if (modeNewProduct) {
+      if (product.codigo == '' || product.nombre == '' || product.cantidad == '' || product.precio == '') {
+        showErrorMessage('Todos los campos son obligatorios')
+        return
+      }
       try {
         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/products/add-new-product`, product);
       } catch (error) {
-        showMessageError(error.response.data.message);
+        showErrorMessage(error.response.data.message);
         return;
       }
     } else {
+      if (product.codigo == '' || product.cantidad == '') {
+        showErrorMessage('Falta por llenar un campo obligatorio')
+        return
+      }
       try {
         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/products/update-product`, product);
       } catch (error) {
-        showMessageError(error.response.data.message);
+        showErrorMessage(error.response.data.message);
         return;
       }
     }
@@ -136,7 +145,7 @@ export default function Add ({ products }) {
                 />
               </>
             }
-            {error && <div className="message-error">{messageError}</div>}
+            {error && <div className="message-error">{errorMessage}</div>}
             <Button
               id={"add-product-button"}
               title={"Agregar producto"}

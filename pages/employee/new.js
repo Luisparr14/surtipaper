@@ -11,16 +11,16 @@ export default function NewEmployee () {
 
   const [empleado, setEmpleado] = useState(data);
   const [error, setError] = useState(false);
-  const [messageError, setMessageError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const ChangeMode = () => {
     setEmpleado(data);
     setModeNewProduct(!modeNewProduct);
   }
 
-  const showMessageError = (message) => {
+  const showErrorMessage = (message) => {
     setError(true)
-    setMessageError(message)
+    setErrorMessage(message)
     setTimeout(() => {
       setError(false)
     }, 1500);
@@ -29,7 +29,7 @@ export default function NewEmployee () {
   const AddEmpleado = async () => {
     
     if (empleado.cedula === '', empleado.nombre === '', empleado.apellido === '', empleado.entrada === '', empleado.salida === '', empleado.direccion === '', empleado.sueldo === '', empleado.telefono === '') {
-      showMessageError('Todos los campos son obligatorios')
+      showErrorMessage('Todos los campos son obligatorios')
       return
     }
 
@@ -38,7 +38,7 @@ export default function NewEmployee () {
       console.log(response.data);
     } catch (error) {
       console.log(error.response.data);
-      showMessageError(error.response.data.message);
+      showErrorMessage(error.response.data.message);
       return;
     }
 
@@ -142,7 +142,7 @@ export default function NewEmployee () {
               />
 
             </>
-            {error && <div className="message-error">{messageError}</div>}
+            {error && <div className="message-error">{errorMessage}</div>}
             <Button
               id={"add-employee-button"}
               title={"Agregar Empleado"}

@@ -9,16 +9,16 @@ import NavBar from "../../components/content/header/NavBar";
 export default function NewMethodPayment () {
   const [metodoPago, setMetodoPago] = useState('');
   const [error, setError] = useState(false);
-  const [messageError, setMessageError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const ChangeMode = () => {
     setEmpleado(data);
     setModeNewProduct(!modeNewProduct);
   }
 
-  const showMessageError = (message) => {
+  const showErrorMessage = (message) => {
     setError(true)
-    setMessageError(message)
+    setErrorMessage(message)
     setTimeout(() => {
       setError(false)
     }, 1500);
@@ -27,7 +27,7 @@ export default function NewMethodPayment () {
   const AddMetodoPago = async () => {
 
     if (metodoPago === '') {
-      showMessageError('El campo es obligatorio')
+      showErrorMessage('El campo es obligatorio')
       return
     }
 
@@ -36,7 +36,7 @@ export default function NewMethodPayment () {
       console.log(response.data);
     } catch (error) {
       console.log(error.response.data);
-      showMessageError(error.response.data.message);
+      showErrorMessage(error.response.data.message);
       return;
     }
 
@@ -69,7 +69,7 @@ export default function NewMethodPayment () {
                 value={metodoPago}
               />
             </>
-            {error && <div className="message-error">{messageError}</div>}
+            {error && <div className="message-error">{errorMessage}</div>}
             <Button
               id={"add-payment-button"}
               title={"Agregar Metodo de Pago"}

@@ -28,12 +28,12 @@ export default function Sell ({ methodPayments, employees }) {
     setMetodoPago(methodPayments.length === 0 ? 0 : methodPayments[0].id)
   }
 
-  const showMessageError = (message) => {
+  const showErrorMessage = (message) => {
     setError(true)
     setErrorMessage(message)
     setTimeout(() => {
       setError(false)
-    }, 1000);
+    }, 1500);
   }
 
   useEffect(() => {
@@ -49,18 +49,26 @@ export default function Sell ({ methodPayments, employees }) {
   }, [factura])
 
   const ComenzarVenta = async () => {
-    setVendiendo(true)
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/bill/create-bill`, { empleado, metodoPago })
-    setFactura(response.data.idFactura)
+    if (empleado == 0 || metodoPago == 0) {
+      showErrorMessage('No se ha seleccionado un empleado o un metodo de pago')
+      return
+    }
+    try {
+      setVendiendo(true)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/bill/create-bill`, { empleado, metodoPago })
+      setFactura(response.data.idFactura)
+    } catch (error) {
+      console.log(error.response.data);
+    }
   }
 
   const AgregarProducto = async () => {
     if (producto === '') {
-      showMessageError('Debe seleccionar un producto')
+      showErrorMessage('Debe seleccionar un producto')
       return
     }
     if (cantidad <= 0) {
-      showMessageError('La cantidad debe ser mayor a 0')
+      showErrorMessage('La cantidad debe ser mayor a 0')
       return
     }
 
@@ -72,7 +80,7 @@ export default function Sell ({ methodPayments, employees }) {
       setProducto('')
     } catch (error) {
       console.log(error.response.data)
-      showMessageError(error.response.data.message)
+      showErrorMessage(error.response.data.message)
       return
     }
   }
@@ -166,6 +174,7 @@ export default function Sell ({ methodPayments, employees }) {
             </div>
           </section>}
           <section className="image-sell">
+            {error && <div className="message-error">{errorMessage}</div>}
             {!vendiendo && <div>
               <Button
                 title={"Nueva Venta"}
