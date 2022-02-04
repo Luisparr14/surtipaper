@@ -8,7 +8,8 @@ export default function Sales (req, res) {
     if (err) {
       return res.status(500).json({
         ok: false,
-        message: 'Error al obtener los productos'
+        message: 'Error al obtener los productos',
+        error: err
       })
     }
 
@@ -19,14 +20,15 @@ export default function Sales (req, res) {
       })
     }
 
-    let queryNombreEmpleado = 'select empleados.nombre_e from empleados where empleados.no_empleado = ?'
+    let queryNombreEmpleado = `select concat(empleados.primer_nombre, ' ',empleados.primer_apellido) as "responsable" from empleados where empleados.no_empleado = ?`
 
     resultQueryDetalles.map((row, i) => {
       db.query(queryNombreEmpleado, [row.empleado], (err, resultQueryNombreEmpleado) => {
         if (err) {
           return res.status(500).json({
             ok: false,
-            message: 'Error al obtener los productos'
+            message: 'Error al obtener los productos',
+            error: err
           })
         }
 
@@ -45,9 +47,9 @@ export default function Sales (req, res) {
 
         totalVendido = totalVendido + parseFloat(row.total)
         if (!(i === resultQueryDetalles.length - 1)) {
-          row.empleado = resultQueryNombreEmpleado[0].nombre_e
+          row.empleado = resultQueryNombreEmpleado[0].responsable
         } else {
-          row.empleado = resultQueryNombreEmpleado[0].nombre_e
+          row.empleado = resultQueryNombreEmpleado[0].responsable
           return res.status(200).json({
             ok: true,
             sales: resultQueryDetalles,

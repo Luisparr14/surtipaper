@@ -14,7 +14,7 @@ export default function NavBar ({ href }) {
     color: router.asPath.startsWith('/products') ? '#FF0505' : '#000'
   }
   const styleIndex = {
-    color: router.asPath === "/" ? '#FF0505' : '#000'
+    color: router.asPath === "/" || router.asPath.includes('new') ? '#FF0505' : '#000'
   }
 
 

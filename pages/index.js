@@ -4,8 +4,11 @@ import Image from 'next/image'
 import { Table } from '../components/commons/Table'
 import NavBar from '../components/content/header/NavBar'
 import styles from '../styles/Home.module.css'
+import Button from '../components/commons/Button'
+import { useRouter } from 'next/router'
 
 export default function Home ({ minStock, topSellers }) {
+  const router = useRouter()
   return (
     <>
       <NavBar />
@@ -44,9 +47,33 @@ export default function Home ({ minStock, topSellers }) {
               width={300}
               height={300}
             />
+            <div className='options'>
+              <Button
+                title='agregar nuevo empleado'
+                type='button'
+                onClick={() => {router.push('/employee/new')}}
+                backGroundColor={"#A5EA4D"}
+                height={'35px'}
+              />
+              <Button
+                title='Nueva forma de pago'
+                type='button'
+                onClick={() => {router.push('/payment/new')}}
+                backGroundColor={"#A5EA4D"}
+                height={'35px'}
+              />
+            </div>
           </section>
         </main>
       </div>
+      <style jsx>{`
+        .options {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 20px;
+          flex-direction: column;
+        }
+        `}</style>
     </>
   )
 }

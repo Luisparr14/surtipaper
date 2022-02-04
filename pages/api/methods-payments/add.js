@@ -1,11 +1,10 @@
-import db from '../../../lib/db';
 import handleError from '../../../helpers/handleError';
-export default function UpdateProduct (req, res) {
-  const { codigo, cantidad } = req.body;
-  const params = [codigo, cantidad];
-  const queryFunction = `call SumarCantidadAProducto(?,?)`
-  
-  db.query(queryFunction, params, (err, results) => {
+import database from '../../../lib/db';
+export default function AddMethodPayment (req, res) {
+  const { metodoPago } = req.body;
+  const sql = `INSERT INTO  forma_pago (nombre)VALUES(?);`
+
+  database.query(sql, metodoPago, (err, results) => {
     if (err) {
       console.log(err);
       return res.status(500).json({
@@ -19,13 +18,13 @@ export default function UpdateProduct (req, res) {
     if (results.affectedRows === 0) {
       return res.status(404).json({
         ok: false,
-        message: 'El codigo de producto no existe',
+        message: 'No se pudo agregar el empleado'
       });
     }
 
     return res.status(200).json({
       ok: true,
-      message: 'Producto actualizado'
+      message: 'Empleado agregado'
     })
 
   })

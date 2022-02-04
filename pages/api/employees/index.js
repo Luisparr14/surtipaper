@@ -1,6 +1,6 @@
 import db from '../../../lib/db';
 export default function Employees (req, res) {
-  const queryEmployees = `SELECT empleados.no_empleado as "id", empleados.nombre_e as "nombre", empleados.* FROM empleados`;
+  const queryEmployees = `SELECT empleados.no_empleado as "id", concat(empleados.primer_nombre, ' ',empleados.primer_apellido) as "nombre", empleados.* FROM empleados`;
   db.query(queryEmployees, (err, employeesResults) => {
     if (err) {
       return res.status(500).json({

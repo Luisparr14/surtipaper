@@ -3,7 +3,7 @@ import db from '../../../lib/db';
 export default function AddProduct (req,res){
   const { factura, cantidad,producto } = req.body;
   const params = [producto,cantidad,factura];
-  const queryFunction = `SELECT agregarProducto(?,?,?) as estado`
+  const queryFunction = `SELECT agregarProductoADetalle(?,?,?) as estado`
 
   db.query(queryFunction, params, (err, results) => {
     if (err) {
