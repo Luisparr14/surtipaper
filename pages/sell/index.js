@@ -174,8 +174,8 @@ export default function Sell ({ methodPayments, employees }) {
             </div>
           </section>}
           <section className="image-sell">
-            {error && <div className="message-error">{errorMessage}</div>}
             {!vendiendo && <div>
+              {error && <div className="message-error">{errorMessage}</div>}
               <Button
                 title={"Nueva Venta"}
                 backGroundColor={`#00b894`}
