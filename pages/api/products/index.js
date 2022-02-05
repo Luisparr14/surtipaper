@@ -6,14 +6,18 @@ export default function Products (req, res) {
       return res.status(500).json({
         ok: false,
         message: 'Error al obtener los productos',
-        error: err + 'issisi'
+        error: err
       })
     }
 
-    rows.length === 0 ? res.status(404).json({
-      ok: false,
-      message: 'No hay productos'
-    }) : res.status(200).json({
+    if (rows.length === 0) {
+      return res.status(404).json({
+        ok: false,
+        message: 'No hay productos'
+      })
+    }
+
+    return res.status(200).json({
       ok: true,
       message: 'Productos obtenidos',
       products: rows

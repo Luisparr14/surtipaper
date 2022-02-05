@@ -7,7 +7,6 @@ export default function AddEmployee (req, res) {
 
   database.query(sql, params, (err, results) => {
     if (err) {
-      console.log(err);
       return res.status(500).json({
         ok: false,
         error: 'Error de servidor',

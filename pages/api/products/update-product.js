@@ -7,7 +7,6 @@ export default function UpdateProduct (req, res) {
   
   db.query(queryFunction, params, (err, results) => {
     if (err) {
-      console.log(err);
       return res.status(500).json({
         ok: false,
         error: 'Error de servidor',

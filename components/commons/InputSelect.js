@@ -1,12 +1,13 @@
-export default function InputSelect ({ id, width, height, text, options, onChange }) {
+export default function InputSelect ({ id, width, height, text, options, placeHolder, backgroundColor, onChange }) {
   return (
     <>
       <label htmlFor={id} className="input-label">{text}</label>
-      <select id={id} className="input-select" onChange={onChange}>
+      <select title={placeHolder} placeholder={placeHolder} id={id} className="input-select" onChange={onChange}>
         {options.map((option) => (
-          <option key={option.id} value={option.id}>{option.nombre}</option>
+          <option key={option.id || option.codigo} value={option.id || option.codigo}>{option.nombre || option.articulo}</option>
         ))}
       </select>
+      
       <style jsx>{`
         .input-select {
           width: ${width || '100%'};
@@ -16,6 +17,7 @@ export default function InputSelect ({ id, width, height, text, options, onChang
           padding: 0 10px;
           margin: 5px 5px;
           font-size: 14px;
+          background-color: ${backgroundColor || undefined};
         }
         .input-label {
           font-size: 14px;

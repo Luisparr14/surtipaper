@@ -1,7 +1,6 @@
 import handleError from '../../../helpers/handleError';
 import db from '../../../lib/db';
 export default function AddNewProduct (req, res) {
-  console.log(req.body);
   const { codigo, nombre, cantidad, precio, marca} = req.body;
   const params = [codigo, nombre, cantidad, precio, marca];
 

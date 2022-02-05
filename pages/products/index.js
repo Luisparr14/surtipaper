@@ -6,51 +6,51 @@ import { Table } from '../../components/commons/Table';
 import NavBar from "../../components/content/header/NavBar";
 
 export default function Products ({ products }) {
-    return (
-        <>
-            <NavBar />
-            <div className="container">
-                <Head>
-                    <title>Productos</title>
-                    <meta name="description" content="Listado completo de productos" />
-                    <link rel="icon" href="/favicon.ico" />
-                </Head>
-                <main className="main">
-                    <section className="tables">
-                        <Table
-                            title="Productos"
-                            columns={[
-                                { key: 'codigo', title: 'ID' },
-                                { key: 'articulo', title: 'Nombre' },
-                                { key: 'precio_unitario', title: 'Precio' },
-                                { key: 'unidades', title: 'Cantidad' },
-                            ]}
-                            data={products}
-                        />
-                    </section>
-                    <section className="options">
-                        <Link href={"/products/add"}>
-                            <a>
-                                <Button
-                                    title={'Agregar producto'}
-                                    backGroundColor={'#A5EA4D'}
-                                />
+  return (
+    <>
+      <NavBar />
+      <div className="container">
+        <Head>
+          <title>Productos</title>
+          <meta name="description" content="Listado completo de productos" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <main className="main">
+          <section className="tables">
+            <Table
+              title="Productos"
+              columns={[
+                { key: 'codigo', title: 'ID' },
+                { key: 'articulo', title: 'Nombre' },
+                { key: 'precio_unitario', title: 'Precio' },
+                { key: 'unidades', title: 'Cantidad' },
+              ]}
+              data={products}
+            />
+          </section>
+          <section className="options">
+            <Link href={"/products/add"}>
+              <a>
+                <Button
+                  title={'Agregar producto'}
+                  backGroundColor={'#A5EA4D'}
+                />
 
-                            </a>
-                        </Link>
-                        <Link href={"/products/delete"}>
-                            <a>
-                                <Button
-                                    title={'Eliminar producto'}
-                                    backGroundColor={'#FA6E6E'}
-                                />
-                            </a>
-                        </Link>
+              </a>
+            </Link>
+            <Link href={"/products/delete"}>
+              <a>
+                <Button
+                  title={'Eliminar producto'}
+                  backGroundColor={'#FA6E6E'}
+                />
+              </a>
+            </Link>
 
-                    </section>
-                </main>
-            </div>
-            <style jsx>{`
+          </section>
+        </main>
+      </div>
+      <style jsx>{`
             .main {
                 min-height: calc(100vh - 50px);
                 padding: 0;
@@ -68,23 +68,23 @@ export default function Products ({ products }) {
                 align-items: center;
                 }
             `}</style>
-        </>
-    )
+    </>
+  )
 }
 
 export async function getServerSideProps () {
-    let products = [];
-    try {
-        const response = await axios(`${process.env.API_URL}/products`);
-        products = response.data.products;
+  let products = [];
+  try {
+    const response = await axios(`${process.env.API_URL}/products`);
+    products = response.data.products;
+  }
+  catch (error) {
+    console.error(error.response.data)
+  }
+
+  return {
+    props: {
+      products
     }
-    catch (error) {
-        console.error('Error en la peticion', error)
-    }
-    
-    return {
-        props: {
-            products
-        }
-    }
+  }
 }

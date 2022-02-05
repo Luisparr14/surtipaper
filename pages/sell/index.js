@@ -9,12 +9,12 @@ import { Table } from "../../components/commons/Table";
 import NavBar from "../../components/content/header/NavBar";
 import InputSelect from "../../components/commons/InputSelect";
 
-export default function Sell ({ methodPayments, employees }) {
+export default function Sell ({ methodPayments, employees, productsList }) {
   const [vendiendo, setVendiendo] = useState(false)
   const [factura, setFactura] = useState(0)
   const [empleado, setEmpleado] = useState(employees.length === 0 ? 0 : employees[0].id)
   const [metodoPago, setMetodoPago] = useState(methodPayments.length === 0 ? 0 : methodPayments[0].id)
-  const [producto, setProducto] = useState('')
+  const [producto, setProducto] = useState(productsList.length === 0 ? 0 : productsList[0].id)
   const [cantidad, setCantidad] = useState(1)
   const [products, setProducts] = useState([])
   const [errorMessage, setErrorMessage] = useState('')
@@ -77,7 +77,6 @@ export default function Sell ({ methodPayments, employees }) {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sell/list-products`, { "idFactura": factura });
       setProducts(res.data.productsList);
       setCantidad(1)
-      setProducto('')
     } catch (error) {
       console.log(error.response.data)
       showErrorMessage(error.response.data.message)
@@ -119,15 +118,15 @@ export default function Sell ({ methodPayments, employees }) {
         <main className="main">
           {vendiendo && <section className="tables sell-table">
             <div className="inputs">
-              <InputText
-                id="product-code"
-                type="text"
-                placeHolder="Ingrese el codigo del producto"
-                width="100%"
-                height={"40px"}
+              <InputSelect
+                text={'Producto'}
+                width={'100%'}
+                height={'40px'}
+                options={productsList}
                 onChange={(e) => setProducto(e.target.value)}
-                value={producto}
+                id={'producto-select'}                
               />
+
               <InputText
                 id="product-quantity"
                 type="number"
@@ -249,6 +248,7 @@ export default function Sell ({ methodPayments, employees }) {
 export async function getServerSideProps () {
   let methodPayments = []
   let employees = []
+  let productsList=[]
   try {
     const response = await axios.post(`${process.env.API_URL}/methods-payments`);
     methodPayments = response.data.methods;
@@ -263,10 +263,18 @@ export async function getServerSideProps () {
     console.log(error.Error)
   }
 
+  try {
+    const response = await axios.get(`${process.env.API_URL}/products`);
+    productsList = response.data.products;
+  } catch (error) {
+    console.log(error.response.data)
+  }
+
   return {
     props: {
       methodPayments,
-      employees
+      employees,
+      productsList
     }
   }
 
