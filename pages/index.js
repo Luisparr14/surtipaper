@@ -20,6 +20,13 @@ export default function Home ({ minStock, topSellers }) {
         </Head>
         <main className={styles.main}>
           <section className={styles.tables}>
+            <Button
+              title={'Realizar pedido'}
+              onClick={() => router.push('/order')}
+              backGroundColor={'#6FDCFF'}
+              width={'30%'}
+              height={'30px'}
+            />
             <Table
               title={'Productos a punto de agotarse'}
               columns={[
@@ -59,6 +66,13 @@ export default function Home ({ minStock, topSellers }) {
                 title='Nueva forma de pago'
                 type='button'
                 onClick={() => {router.push('/payment/new')}}
+                backGroundColor={"#A5EA4D"}
+                height={'35px'}
+              />
+              <Button
+                title='Nuevo proveedor'
+                type='button'
+                onClick={() => {router.push('/provider/new')}}
                 backGroundColor={"#A5EA4D"}
                 height={'35px'}
               />
