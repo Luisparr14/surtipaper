@@ -6,7 +6,6 @@ window.onload = () => {
   let linkColapseNav = document.getElementById('collapseNav').getElementsByTagName('a');
   
   function toogleCollapse () {
-    console.log('Toggle Collapse');
     collapsenav.classList.toggle('noCollapse')
     btn.classList.toggle('collapseButtonActive');
     // content.classList.toggle('blur')

@@ -30,9 +30,7 @@ export default function Order ({ proveedores, productos }) {
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/order/new`, order);
-      console.log(response.data);
     } catch (error) {
-      console.log(error.response.data);
       showErrorMessage(error.response.data.message);
       return;
     }
@@ -143,7 +141,7 @@ export async function getServerSideProps () {
     const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/providers/all`);
     proveedores = res.data.proveedores;
   } catch (error) {
-    console.log(error.response.data);
+    
   }
 
   try {
@@ -151,7 +149,7 @@ export async function getServerSideProps () {
     productos = res.data.products;
   }
   catch (error) {
-    console.log(error.response.data);
+    
   }
 
   return {

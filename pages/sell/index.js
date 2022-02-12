@@ -1,6 +1,5 @@
 import axios from "axios";
 import Head from "next/head";
-import { useRouter } from 'next/router';
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import InputText from "../../components/commons/InputText";
@@ -42,7 +41,7 @@ export default function Sell ({ methodPayments, employees, productsList }) {
         const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sell/list-products`, { "idFactura": factura });
         setProducts(res.data.productsList);
       } catch (error) {
-        console.log(error.response.data);
+        
       }
     }
     fetchData();
@@ -58,7 +57,7 @@ export default function Sell ({ methodPayments, employees, productsList }) {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/bill/create-bill`, { empleado, metodoPago })
       setFactura(response.data.idFactura)
     } catch (error) {
-      console.log(error.response.data);
+      
     }
   }
 
@@ -78,16 +77,14 @@ export default function Sell ({ methodPayments, employees, productsList }) {
       setProducts(res.data.productsList);
       setCantidad(1)
     } catch (error) {
-      console.log(error.response.data)
       showErrorMessage(error.response.data.message)
       return
     }
   }
 
   const FinalizarVenta = async () => {
-    console.log('Finalizando venta', products.length)
+    
     if (products.length === 0) {
-      console.log('No hay productos en la factura')
       return
     }
     resetStates()
@@ -97,9 +94,9 @@ export default function Sell ({ methodPayments, employees, productsList }) {
     resetStates()
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sell/cancel-sale`, { "idFactura": factura })
-      console.log(response.data)
+      
     } catch (error) {
-      console.log(error)
+
     }
   }
 
@@ -253,21 +250,18 @@ export async function getServerSideProps () {
     const response = await axios.post(`${process.env.API_URL}/methods-payments`);
     methodPayments = response.data.methods;
   } catch (error) {
-    console.log(error.Error)
   }
 
   try {
     const response = await axios.post(`${process.env.API_URL}/employees`);
     employees = response.data.employees;
   } catch (error) {
-    console.log(error.Error)
   }
 
   try {
     const response = await axios.get(`${process.env.API_URL}/products`);
     productsList = response.data.products;
   } catch (error) {
-    console.log(error.response.data)
   }
 
   return {

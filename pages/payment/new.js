@@ -33,9 +33,7 @@ export default function NewMethodPayment () {
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/methods-payments/add`, { metodoPago });
-      console.log(response.data);
     } catch (error) {
-      console.log(error.response.data);
       showErrorMessage(error.response.data.message);
       return;
     }

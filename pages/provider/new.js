@@ -35,9 +35,7 @@ export default function NewProvider () {
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/providers/add`, provider);
-      console.log(response.data);
     } catch (error) {
-      console.log(error.response.data);
       showErrorMessage(error.response.data.message);
       return;
     }
