@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styles from '../../../styles/NavBar.module.css'
-
+import {useEffect} from 'react'
 const loadScript = () => {
   console.log('LISTO')
   let btn = document.getElementById('collapse-button');
