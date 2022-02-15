@@ -4,34 +4,29 @@ import { useRouter } from 'next/router'
 import styles from '../../../styles/NavBar.module.css'
 import {useEffect} from 'react'
 const loadScript = () => {
-  console.log('LISTO')
   let btn = document.getElementById('collapse-button');
   let collapsenav = document.getElementById('collapseNav');
-  // let content = document.getElementById('content-page');
-  // let content = document.getElementsByClassName('content-page');
   let linkColapseNav = document.getElementById('collapseNav').getElementsByTagName('a');
+  
+  const openNav = () => {
+    if (btn.classList.contains('collapseButtonActive')) {
+      btn.classList.remove('collapseButtonActive');
+      collapsenav.classList.remove('noCollapse');
+    } else {
+      collapsenav.classList.add('noCollapse')
+      btn.classList.add('collapseButtonActive');
+    }
+  }
+  
+  btn.onclick = openNav;
 
-  function toogleCollapse () {
-    collapsenav.classList.toggle('noCollapse')
-    btn.classList.toggle('collapseButtonActive');
-    // content.classList.toggle('blur')
+  const closeNav = () => {
+    collapsenav.classList.remove('noCollapse');
+    btn.classList.remove('collapseButtonActive');
   }
 
-  btn.addEventListener('click', toogleCollapse)
-
-  // content.addEventListener('click', () => {
-  //   console.log('click')
-  //   if (collapsenav.classList.contains('noCollapse')) {
-  //     toogleCollapse()
-  //   }
-  // })
-
   for (let i = 0; i < linkColapseNav.length; i++) {
-    linkColapseNav[i].addEventListener('click', () => {
-      if (collapsenav.classList.contains('noCollapse')) {
-        toogleCollapse()
-      }
-    })
+    linkColapseNav[i].onclick = closeNav;
   }
 }
 
