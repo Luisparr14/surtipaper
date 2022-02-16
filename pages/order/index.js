@@ -138,14 +138,14 @@ export async function getServerSideProps () {
   let proveedores = []
   let productos = []
   try {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/providers/all`);
+    const res = await axios.get(`${process.env.API_URL}/providers/all`);
     proveedores = res.data.proveedores;
   } catch (error) {
     
   }
 
   try {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`);
+    const res = await axios.get(`${process.env.API_URL}/products`);
     productos = res.data.products;
   }
   catch (error) {
