@@ -13,7 +13,7 @@ export default function Sell ({ methodPayments, employees, productsList }) {
   const [factura, setFactura] = useState(0)
   const [empleado, setEmpleado] = useState(employees.length === 0 ? 0 : employees[0].id)
   const [metodoPago, setMetodoPago] = useState(methodPayments.length === 0 ? 0 : methodPayments[0].id)
-  const [producto, setProducto] = useState(productsList.length === 0 ? 0 : productsList[0].id)
+  const [producto, setProducto] = useState(productsList.length === 0 ? 0 : productsList[0].codigo)
   const [cantidad, setCantidad] = useState(1)
   const [products, setProducts] = useState([])
   const [errorMessage, setErrorMessage] = useState('')
@@ -117,6 +117,7 @@ export default function Sell ({ methodPayments, employees, productsList }) {
             <div className="inputs">
               <InputSelect
                 text={'Producto'}
+                value={producto}
                 width={'100%'}
                 height={'40px'}
                 options={productsList}
@@ -183,6 +184,7 @@ export default function Sell ({ methodPayments, employees, productsList }) {
                 text={`Empleado`}
                 width={"100%"}
                 height={"40px"}
+                value={empleado}
                 options={employees}
                 onChange={(e) => setEmpleado(parseInt(e.target.value))}
               />
@@ -190,6 +192,7 @@ export default function Sell ({ methodPayments, employees, productsList }) {
                 id="id-forma-pago"
                 text="Forma de pago"
                 width="100%"
+                value={metodoPago}
                 height={"40px"}
                 options={methodPayments}
                 onChange={(e) => setMetodoPago(parseInt(e.target.value))}

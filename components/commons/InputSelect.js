@@ -1,8 +1,8 @@
-export default function InputSelect ({ id, width, height, text, options, placeHolder, backgroundColor, onChange }) {
+export default function InputSelect ({ id, width, height, text, options, placeHolder, backgroundColor, onChange, value }) {
   return (
     <>
       <label htmlFor={id} className="input-label">{text}</label>
-      <select title={placeHolder} placeholder={placeHolder} id={id} className="input-select" onChange={onChange}>
+      <select value={value} title={placeHolder} placeholder={placeHolder} id={id} className="input-select" onChange={onChange}>
         {options.map((option) => (
           <option key={option.id || option.codigo} value={option.id || option.codigo}>{option.nombre || option.articulo}</option>
         ))}
